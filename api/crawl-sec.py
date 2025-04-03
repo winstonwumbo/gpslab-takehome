@@ -65,11 +65,11 @@ class handler(BaseHTTPRequestHandler):
             process = CrawlerProcess(
                 settings={
                     "AUTOTHROTTLE_ENABLED": True,
-                    "AUTOTHROTTLE_START_DELAY": 5.0,
+                    "AUTOTHROTTLE_START_DELAY": 3.0,
                     "AUTOTHROTTLE_MAX_DELAY": 60.0,
                     "AUTOTHROTTLE_TARGET_CONCURRENCY": 2.0,
-                    "CONCURRENT_REQUESTS": 2,
-                    "CONCURRENT_REQUESTS_PER_DOMAIN": 2,
+                    "CONCURRENT_REQUESTS": 3,
+                    "CONCURRENT_REQUESTS_PER_DOMAIN": 3,
                     "USER_AGENT": "Penn State GPS Lab tfs5747@psu.edu",
                 }
             )
