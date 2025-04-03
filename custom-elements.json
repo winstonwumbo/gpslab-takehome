@@ -88,6 +88,34 @@
           }
         }
       ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "api/index.js",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "handler",
+          "parameters": [
+            {
+              "name": "req"
+            },
+            {
+              "name": "res"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "handler",
+            "module": "api/index.js"
+          }
+        }
+      ]
     }
   ]
 }
