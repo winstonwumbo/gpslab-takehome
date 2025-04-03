@@ -1,7 +1,7 @@
-import scrapy
+from scrapy import Spider, Request
 from scrapy.crawler import CrawlerProcess
 
-class DFPISpider(scrapy.Spider):
+class DFPISpider(Spider):
     name = 'dfpi_spider'
     start_urls = ['https://dfpi.ca.gov/consumers/crypto/crypto-scam-tracker/']
 
@@ -14,7 +14,7 @@ class DFPISpider(scrapy.Spider):
                 "description": row.xpath("td[2]//text()").get(),
             }
 
-class SECSpider(scrapy.Spider):
+class SECSpider(Spider):
     name = 'sec_spider'
     start_urls = ['https://www.sec.gov/about/divisions-offices/division-enforcement/cyber-crypto-assets-emerging-technology/enforcement-actions']
 
@@ -44,7 +44,7 @@ class SECSpider(scrapy.Spider):
                     })
             for action in sec_map:
                 sanitized_url = response.urljoin(action["url"]);
-                yield scrapy.Request(sanitized_url, callback=self.parse_item, meta={"category": category, "date": action["date"]})
+                yield Request(sanitized_url, callback=self.parse_item, meta={"category": category, "date": action["date"]})
                                           
     def parse_item(self, response):
         # Process description
@@ -60,7 +60,7 @@ class SECSpider(scrapy.Spider):
             'description': cleaned_description
         }
 
-class ZachXBTSpider(scrapy.Spider):
+class ZachXBTSpider(Spider):
     name = 'zachxbt_spider'
     start_urls = ['https://threadreaderapp.com/user/zachxbt']
 

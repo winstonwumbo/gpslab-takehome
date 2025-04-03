@@ -1,13 +1,12 @@
 from http.server import BaseHTTPRequestHandler
 import json
-from datetime import datetime
 import io
-import scrapy
+from scrapy import Spider
 from scrapy.crawler import CrawlerProcess
 from contextlib import redirect_stdout
 
 
-class DFPISpider(scrapy.Spider):
+class DFPISpider(Spider):
     name = 'dfpi_spider'
     start_urls = ['https://dfpi.ca.gov/consumers/crypto/crypto-scam-tracker/']
     results = []  # Initialize results list here
