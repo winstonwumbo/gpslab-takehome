@@ -12,16 +12,20 @@ import { I18NMixin } from "@haxtheweb/i18n-manager/lib/I18NMixin.js";
  * @demo index.html
  * @element gpslab-dashboard
  */
-export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
+export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
 
   static get tag() {
-    return "gpslab-dashboard";
+    return "gpslab-fraud-listing";
   }
 
   constructor() {
     super();
     this.title = "";
-    this.items = [];
+    this.source = "";
+    this.date = "";
+    this.keywords = [];
+    this.description = "";
+
   }
 
   // Lit reactive properties
@@ -29,7 +33,10 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
     return {
       ...super.properties,
       title: { type: String },
-      items: { type: Array },
+      source: { type: String },
+      date: { type: String },
+      keywords: { type: Array },
+      description: { type: String },
     };
   }
 
@@ -71,4 +78,4 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
   }
 }
 
-globalThis.customElements.define(GpslabDashboard.tag, GpslabDashboard);
+globalThis.customElements.define(GpslabFraudListing.tag, GpslabFraudListing);
