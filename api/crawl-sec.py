@@ -16,31 +16,19 @@ class SECSpider(Spider):
 
     def parse(self, response):
         for index, table in enumerate(response.xpath('//table')):
-            match index:
-                case 0:
-                    category = "Crypto Assets"
-                case 1:
-                    category = "Account Intrusions"
-                case 2:
-                    category = "Hacking/Insider Trading"
-                case 3:
-                    category = "Market Manipulation/False Tweets/Fake Websites/Dark Web"
-                case 4:
-                    category = "Regulated Entities - Cybersecurity Controls and Safeguarding Customer Information"
-                case 5:
-                    category = "Public Company Disclosure and Controls"
-                case 6:
-                    category = "Trading Suspensions"
-            sec_map = []
-            for row in table.xpath('tbody/tr'):
-                for item in row.xpath("td[1]//a/@href").getall():
-                    sec_map.append({
-                        "url": item,
-                        "date": row.xpath("td[2]//text()").get(),
-                    })
-            for action in sec_map:
-                sanitized_url = response.urljoin(action["url"]);
-                yield Request(sanitized_url, callback=self.parse_item, meta={"category": category, "date": action["date"]})
+            if(index==0):
+                category = "Crypto Assets"
+
+                sec_map = []
+                for row in table.xpath('tbody/tr'):
+                    for item in row.xpath("td[1]//a/@href").getall():
+                        sec_map.append({
+                            "url": item,
+                            "date": row.xpath("td[2]//text()").get(),
+                        })
+                for action in sec_map:
+                    sanitized_url = response.urljoin(action["url"]);
+                    yield Request(sanitized_url, callback=self.parse_item, meta={"category": category, "date": action["date"]})
                                             
     def parse_item(self, response):
         # Process description
