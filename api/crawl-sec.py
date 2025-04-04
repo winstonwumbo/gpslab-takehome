@@ -15,20 +15,14 @@ class SECSpider(Spider):
         super().__init__(*args, **kwargs)
 
     def parse(self, response):
-        for index, table in enumerate(response.xpath('//table')):
-            if(index==0):
-                category = "Crypto Assets"
+        table = response.xpath('//table')[0]
+        category = "Crypto Assets"
 
-                sec_map = []
-                for row in table.xpath('tbody/tr'):
-                    for item in row.xpath("td[1]//a/@href").getall():
-                        sec_map.append({
-                            "url": item,
-                            "date": row.xpath("td[2]//text()").get(),
-                        })
-                for action in sec_map:
-                    sanitized_url = response.urljoin(action["url"]);
-                    yield Request(sanitized_url, callback=self.parse_item, meta={"category": category, "date": action["date"]})
+        sec_map = []
+        for row in table.xpath('tbody/tr'):
+            for item in row.xpath("td[1]//a/@href").getall():
+                sanitized_url = response.urljoin(item);
+                yield Request(sanitized_url, callback=self.parse_item, meta={"category": category, "date": row.xpath("td[2]//text()").get()})
                                             
     def parse_item(self, response):
         # Process description
