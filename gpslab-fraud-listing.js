@@ -25,7 +25,7 @@ export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
     this.date = "";
     this.keywords = [];
     this.description = "";
-
+    this.llmSummary = "";
   }
 
   // Lit reactive properties
@@ -63,10 +63,10 @@ export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
   // Lit render the HTML
   render() {
     return html`
-<div class="wrapper">
-  <h3>${this.title}</h3>
-  <slot></slot>
-</div>`;
+    <div class="wrapper">
+        <h3>${this.title}</h3>
+        <slot></slot>
+    </div>`;
   }
 
   /**

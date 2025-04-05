@@ -19,8 +19,8 @@
     "main": "gpslab-dashboard.js",
     "module": "gpslab-dashboard.js",
     "scripts": {
-        "start": "vercel dev",
-        "build": "rimraf public && rollup -c rollup.config.js && npm run analyze",
+        "start": "rimraf public && vercel dev",
+        "build": "rollup -c rollup.config.js && npm run analyze",
         "analyze": "cem analyze --litelement --exclude public",
         "dddaudit": "hax audit",
         "release": "npm run build && commit-and-tag-version && git push --follow-tags origin main && npm publish",
@@ -30,6 +30,7 @@
     "dependencies": {
         "@haxtheweb/d-d-d": "^10.0.2",
         "@haxtheweb/i18n-manager": "^10.0.2",
+        "@libsql/client": "^0.15.2",
         "lit": "^3.2.1"
     },
     "devDependencies": {

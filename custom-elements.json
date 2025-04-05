@@ -4,6 +4,34 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "database.js",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "handler",
+          "parameters": [
+            {
+              "name": "req"
+            },
+            {
+              "name": "res"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "handler",
+          "declaration": {
+            "name": "handler",
+            "module": "database.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "gpslab-dashboard.js",
       "declarations": [
         {
@@ -16,6 +44,15 @@
               "name": "tag",
               "static": true,
               "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "analyzeCaseWithLLM",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
             },
             {
               "kind": "field",
@@ -36,11 +73,23 @@
             },
             {
               "kind": "field",
-              "name": "t",
+              "name": "items",
+              "privacy": "public",
               "type": {
-                "text": "object"
+                "text": "array"
               },
-              "default": "{ ...this.t, title: \"Title\", }"
+              "default": "[]",
+              "attribute": "items"
+            },
+            {
+              "kind": "field",
+              "name": "llmSummary",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Tmp None\"",
+              "attribute": "llm-summary"
             }
           ],
           "attributes": [
@@ -51,6 +100,22 @@
               },
               "default": "\"\"",
               "fieldName": "title"
+            },
+            {
+              "name": "items",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "fieldName": "items"
+            },
+            {
+              "name": "llm-summary",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Tmp None\"",
+              "fieldName": "llmSummary"
             }
           ],
           "mixins": [
@@ -85,6 +150,165 @@
           "declaration": {
             "name": "GpslabDashboard",
             "module": "gpslab-dashboard.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "gpslab-fraud-listing.js",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "`gpslab-dashboard`",
+          "name": "GpslabFraudListing",
+          "members": [
+            {
+              "kind": "field",
+              "name": "tag",
+              "static": true,
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "haxProperties",
+              "static": true,
+              "description": "haxProperties integration via file reference",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "title",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "title"
+            },
+            {
+              "kind": "field",
+              "name": "source",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "source"
+            },
+            {
+              "kind": "field",
+              "name": "date",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "date"
+            },
+            {
+              "kind": "field",
+              "name": "keywords",
+              "privacy": "public",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "attribute": "keywords"
+            },
+            {
+              "kind": "field",
+              "name": "description",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "description"
+            },
+            {
+              "kind": "field",
+              "name": "llmSummary",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\""
+            }
+          ],
+          "attributes": [
+            {
+              "name": "title",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "title"
+            },
+            {
+              "name": "source",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "source"
+            },
+            {
+              "name": "date",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "date"
+            },
+            {
+              "name": "keywords",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "fieldName": "keywords"
+            },
+            {
+              "name": "description",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "description"
+            }
+          ],
+          "mixins": [
+            {
+              "name": "DDDSuper",
+              "package": "@haxtheweb/d-d-d/d-d-d.js"
+            },
+            {
+              "name": "I18NMixin",
+              "package": "@haxtheweb/i18n-manager/lib/I18NMixin.js"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "gpslab-dashboard",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "GpslabFraudListing",
+          "declaration": {
+            "name": "GpslabFraudListing",
+            "module": "gpslab-fraud-listing.js"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "declaration": {
+            "name": "GpslabFraudListing",
+            "module": "gpslab-fraud-listing.js"
           }
         }
       ]

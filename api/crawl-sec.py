@@ -50,8 +50,8 @@ class handler(BaseHTTPRequestHandler):
                     "AUTOTHROTTLE_START_DELAY": 2.5,
                     "AUTOTHROTTLE_MAX_DELAY": 60.0,
                     "AUTOTHROTTLE_TARGET_CONCURRENCY": 2.0,
-                    "CONCURRENT_REQUESTS": 5,
-                    "CONCURRENT_REQUESTS_PER_DOMAIN": 5,
+                    "CONCURRENT_REQUESTS": 6,
+                    "CONCURRENT_REQUESTS_PER_DOMAIN": 6,
                     "USER_AGENT": "Penn State GPS Lab tfs5747@psu.edu",
                 }
             )
