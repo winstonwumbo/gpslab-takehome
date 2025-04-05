@@ -1,6 +1,6 @@
 import { createClient } from "@libsql/client";
 
-export async function handler(req, res){
+export default async function handler(req, res){
   const client = createClient({
     url: process.env.TURSO_DB_URL,
     authToken: process.env.TURSO_DB_KEY,

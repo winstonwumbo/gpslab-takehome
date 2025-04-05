@@ -4,34 +4,6 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "database.js",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "handler",
-          "parameters": [
-            {
-              "name": "req"
-            },
-            {
-              "name": "res"
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "handler",
-          "declaration": {
-            "name": "handler",
-            "module": "database.js"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "gpslab-dashboard.js",
       "declarations": [
         {
@@ -309,6 +281,34 @@
           "declaration": {
             "name": "GpslabFraudListing",
             "module": "gpslab-fraud-listing.js"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "api/database.js",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "handler",
+          "parameters": [
+            {
+              "name": "req"
+            },
+            {
+              "name": "res"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "handler",
+          "declaration": {
+            "name": "handler",
+            "module": "api/database.js"
           }
         }
       ]
