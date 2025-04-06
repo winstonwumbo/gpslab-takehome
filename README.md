@@ -4,6 +4,17 @@ A prototype dashboard for tracking cryptocurrency fraud. Try the live demo at: h
 
 Or read the [Local Setup](#local-setup) section for a guided walkthrough on deploying locally!
 
+## Tables of Contents
+* [Primary Dependencies](#primary-dependencies)
+* [What is Vercel?](#what-is-vercel)
+* [Local Setup](#local-setup)
+* [Dashboard Layout](#dashboard-layout)
+* [Frontend Architecture](#frontend-architecture)
+* [Backend Architecture](#backend-architecture)
+* [Database Architecture](#database-architecture)
+* [Notable Packages for Data Collection & Engineering](#notable-packages-for-data-collection--engineering)
+* [Constraints](#constraints)
+
 ## Primary Dependencies
 * Python
 * Node.js
@@ -77,6 +88,15 @@ If you would like to examine my local Jupyter Notebooks, please install the `jup
 ```
 pip install jupyter
 ```
+
+## Dashboard Layout
+As an early prototype, the dashboard follows the following layout for simplicity:
+
+1. **Interaction Menu**
+2. **Fraud Listing Table**
+3. **Figures of Frequency Patterns**
+4. **Graph Visualizations**
+5. **LLM Summary**
 
 ## Frontend Architecture
 1. **Framework: LitElement (Web Components)**
