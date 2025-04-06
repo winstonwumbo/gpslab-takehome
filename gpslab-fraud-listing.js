@@ -21,11 +21,15 @@ export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
   constructor() {
     super();
     this.title = "";
-    this.source = "";
+    this.fraud_category = "";
     this.date = "";
-    this.keywords = [];
+    this.source = "";
+    this.source_url = "";
+    this.currency_types = "";
+    this.currency_amount = 0;
+    this.accused_parties = "";
+    this.relavent_addresses = "";
     this.description = "";
-    this.llmSummary = "";
   }
 
   // Lit reactive properties
@@ -33,9 +37,14 @@ export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
     return {
       ...super.properties,
       title: { type: String },
-      source: { type: String },
+      fraudCategory: { type: String, attribute: "fraud-category" },
       date: { type: String },
-      keywords: { type: Array },
+      source: { type: String },
+      sourceUrl: { type: String, attribute: "source-url" },
+      currencyTypes: { type: String, attribute: "currency-types" },
+      currencyAmount: { type: Number, attribute: "currency-amount" },
+      accusedParties: { type: String, attribute: "accused-parties" },
+      relaventAddresses: { type: String, attribute: "relavent-addresses" },
       description: { type: String },
     };
   }
@@ -45,17 +54,23 @@ export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
     return [super.styles,
     css`
       :host {
-        display: block;
+        display: table-row;
         color: var(--ddd-theme-primary);
         background-color: var(--ddd-theme-accent);
         font-family: var(--ddd-font-navigation);
+        margin: 0;
+        padding: 0;
       }
       .wrapper {
-        margin: var(--ddd-spacing-2);
-        padding: var(--ddd-spacing-4);
+        display: inline-flex;
       }
       h3 span {
         font-size: var(--gpslab-dashboard-label-font-size, var(--ddd-font-size-s));
+      }
+      .table-cell {
+        display: table-cell;
+        width: 40px;
+        border: 1px solid black;
       }
     `];
   }
@@ -63,10 +78,15 @@ export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
   // Lit render the HTML
   render() {
     return html`
-    <div class="wrapper">
-        <h3>${this.title}</h3>
-        <slot></slot>
-    </div>`;
+        <a href=${this.source_url} class="table-cell">${this.title}</a>
+        <p class="table-cell">${this.fraudCategory}</p>
+        <p class="table-cell">${this.date}</p>
+        <p class="table-cell">${this.source}</p>
+        <p class="table-cell">${this.currencyTypes}</p>
+        <p class="table-cell">${this.currencyAmount}</p>
+        <p class="table-cell">${this.accusedParties}</p>
+        <p class="table-cell">${this.relaventAddresses}</p>
+        `;
   }
 
   /**

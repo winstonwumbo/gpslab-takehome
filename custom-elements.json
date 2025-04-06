@@ -19,6 +19,18 @@
             },
             {
               "kind": "method",
+              "name": "updateDatabase"
+            },
+            {
+              "kind": "method",
+              "name": "retrieveDatabase"
+            },
+            {
+              "kind": "method",
+              "name": "frequencyChart"
+            },
+            {
+              "kind": "method",
               "name": "analyzeCaseWithLLM",
               "parameters": [
                 {
@@ -60,8 +72,38 @@
               "type": {
                 "text": "string"
               },
-              "default": "\"Tmp None\"",
+              "default": "\"No Case Queried\"",
               "attribute": "llm-summary"
+            },
+            {
+              "kind": "field",
+              "name": "categoryFrequency",
+              "privacy": "public",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "attribute": "category-frequency"
+            },
+            {
+              "kind": "field",
+              "name": "sourceFrequency",
+              "privacy": "public",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "attribute": "source-frequency"
+            },
+            {
+              "kind": "field",
+              "name": "currencyFrequency",
+              "privacy": "public",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "attribute": "currency-frequency"
             }
           ],
           "attributes": [
@@ -86,8 +128,32 @@
               "type": {
                 "text": "string"
               },
-              "default": "\"Tmp None\"",
+              "default": "\"No Case Queried\"",
               "fieldName": "llmSummary"
+            },
+            {
+              "name": "category-frequency",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "fieldName": "categoryFrequency"
+            },
+            {
+              "name": "source-frequency",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "fieldName": "sourceFrequency"
+            },
+            {
+              "name": "currency-frequency",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "fieldName": "currencyFrequency"
             }
           ],
           "mixins": [
@@ -160,13 +226,11 @@
             },
             {
               "kind": "field",
-              "name": "source",
-              "privacy": "public",
+              "name": "fraud_category",
               "type": {
                 "text": "string"
               },
-              "default": "\"\"",
-              "attribute": "source"
+              "default": "\"\""
             },
             {
               "kind": "field",
@@ -180,13 +244,53 @@
             },
             {
               "kind": "field",
-              "name": "keywords",
+              "name": "source",
               "privacy": "public",
               "type": {
-                "text": "array"
+                "text": "string"
               },
-              "default": "[]",
-              "attribute": "keywords"
+              "default": "\"\"",
+              "attribute": "source"
+            },
+            {
+              "kind": "field",
+              "name": "source_url",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "currency_types",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "currency_amount",
+              "type": {
+                "text": "number"
+              },
+              "default": "0"
+            },
+            {
+              "kind": "field",
+              "name": "accused_parties",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\""
+            },
+            {
+              "kind": "field",
+              "name": "relavent_addresses",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\""
             },
             {
               "kind": "field",
@@ -200,11 +304,57 @@
             },
             {
               "kind": "field",
-              "name": "llmSummary",
+              "name": "fraudCategory",
+              "privacy": "public",
               "type": {
                 "text": "string"
               },
-              "default": "\"\""
+              "attribute": "fraud-category"
+            },
+            {
+              "kind": "field",
+              "name": "sourceUrl",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "source-url"
+            },
+            {
+              "kind": "field",
+              "name": "currencyTypes",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "currency-types"
+            },
+            {
+              "kind": "field",
+              "name": "currencyAmount",
+              "privacy": "public",
+              "type": {
+                "text": "number"
+              },
+              "attribute": "currency-amount"
+            },
+            {
+              "kind": "field",
+              "name": "accusedParties",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "accused-parties"
+            },
+            {
+              "kind": "field",
+              "name": "relaventAddresses",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "attribute": "relavent-addresses"
             }
           ],
           "attributes": [
@@ -217,12 +367,11 @@
               "fieldName": "title"
             },
             {
-              "name": "source",
+              "name": "fraud-category",
               "type": {
                 "text": "string"
               },
-              "default": "\"\"",
-              "fieldName": "source"
+              "fieldName": "fraudCategory"
             },
             {
               "name": "date",
@@ -233,12 +382,47 @@
               "fieldName": "date"
             },
             {
-              "name": "keywords",
+              "name": "source",
               "type": {
-                "text": "array"
+                "text": "string"
               },
-              "default": "[]",
-              "fieldName": "keywords"
+              "default": "\"\"",
+              "fieldName": "source"
+            },
+            {
+              "name": "source-url",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "sourceUrl"
+            },
+            {
+              "name": "currency-types",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "currencyTypes"
+            },
+            {
+              "name": "currency-amount",
+              "type": {
+                "text": "number"
+              },
+              "fieldName": "currencyAmount"
+            },
+            {
+              "name": "accused-parties",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "accusedParties"
+            },
+            {
+              "name": "relavent-addresses",
+              "type": {
+                "text": "string"
+              },
+              "fieldName": "relaventAddresses"
             },
             {
               "name": "description",
@@ -305,7 +489,7 @@
       "exports": [
         {
           "kind": "js",
-          "name": "handler",
+          "name": "default",
           "declaration": {
             "name": "handler",
             "module": "api/database.js"
