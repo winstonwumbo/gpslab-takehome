@@ -14,7 +14,15 @@ Discussion on technical issues that impacted the direction of this take-home pro
 2. **ChainAbuse**
     * ChainAbuse has a polished API available for developers to interact with the platform.
     * Free users are constrained to **10 requests** maximum per month.
+3. **SEC Crypto Assets**
+    * The SEC website has a strict rate-limit of 10 requests per second. On the other hand, Vercel functions are limited to a **60 second** duration.
+    * The crawler required a great amount of setting optimization to work properly.
+4. **California DFPI**
+    * The **Scam Tracking** database maintained by DFPI does not provide a data value for any cases. This makes it more difficult to normalize the database with the others.
 
 ## Components
 1. **Vercel**
    * Serverless functions have a maximum runtime of **60 seconds** and a maximum dependency size of **250 MB** for free users.
+2. **Natural-Language Processing (NLP)**
+    * Python provides several excellent frameworks for NLP such as **Spacy** and **Google Natural Language AI**. However, these are heavy packages, and after significant testing, I realized that they exceed the size limit on **Vercel**.
+    * After considering these constraints, I decided to manually parse the text data using **regex** and **Pandas**.
