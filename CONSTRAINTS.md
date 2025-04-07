@@ -15,6 +15,7 @@ Discussion on technical issues that impacted the direction of this take-home pro
     * ChainAbuse has a polished API available for developers to interact with the platform.
     * Free users are constrained to **10 requests** maximum per month. Each request can only contain **50 records** maximum.
     * I was able to test a CURL request to the ChainAbuse API earlier this week. However, the API has started returning an **Invalid Credentials** error, despite only issuing 1 out of 10 requests. I messaged ChainAbuse support and did some unsuccessful troubleshooting on my own.
+    * ChainAbuse also blocks manual crawling and redirects to its API authentication, which wasn't working.
     * I decided to insert a simulated request into my database instead. This is based on the first page of results from ChainAbuse.
 3. **SEC Crypto Assets**
     * The SEC website has a strict rate-limit of 10 requests per second. On the other hand, Vercel functions are limited to a **60 second** duration.
@@ -26,6 +27,7 @@ Discussion on technical issues that impacted the direction of this take-home pro
 ## Components
 1. **Vercel**
    * Serverless functions have a maximum runtime of **60 seconds** and a maximum dependency size of **250 MB** for free users.
+   * Serverless functions were chosen over a dedicated server to simplify sharing the dashboard. A dedicated server would make sharing this demo more complex, if users aren't in the same network.
 2. **Natural-Language Processing (NLP)**
     * Python provides several excellent frameworks for NLP such as **Spacy**, **NLTK**, and **Google Natural Language AI**. However, these are heavy packages, and after significant testing, I realized that they exceed the size limit on **Vercel**.
     * For the purposes of this demo, I decided to manually parse the text data using **regex** and **Pandas**.

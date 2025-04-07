@@ -96,6 +96,7 @@ As an early prototype, the dashboard follows the following layout for simplicity
 
 1. **Interaction Menu**
 2. **Fraud Listing Table**
+    * Note: Fields have been normalized and reduced to information shared between sources.
 3. **Figures of Frequency Patterns**
 4. **Graph Visualizations**
 5. **LLM Summary**
