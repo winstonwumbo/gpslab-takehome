@@ -61,7 +61,7 @@ export default async function handler(req, res){
     let result;
     if(sourceFilter == "AllSources"){
       result = {
-        "data": await client.execute("SELECT * FROM fraud_listings ORDER BY date DESC"),
+        "data": await client.execute("SELECT * FROM fraud_listings ORDER BY date ASC"),
         "category_frequency": await client.execute("SELECT fraud_category, COUNT(fraud_category) as most_frequent FROM fraud_listings GROUP BY fraud_category ORDER BY most_frequent DESC LIMIT 1"),
         "source_frequency": await client.execute("SELECT source, COUNT(source) as most_frequent FROM fraud_listings GROUP BY source ORDER BY most_frequent DESC LIMIT 1"),
         "currency_frequency": await client.execute("SELECT currency_type, COUNT(currency_type) as most_frequent FROM fraud_listings GROUP BY currency_type ORDER BY most_frequent DESC LIMIT 1"),
@@ -71,7 +71,7 @@ export default async function handler(req, res){
     } else {
       result = {
         "data": await client.execute({
-          sql: "SELECT * FROM fraud_listings WHERE source = ? ORDER BY date DESC",
+          sql: "SELECT * FROM fraud_listings WHERE source = ? ORDER BY date ASC",
           args: [sourceFilter]
         }),
         "category_frequency": await getFrequency('fraud_category', sourceFilter),
