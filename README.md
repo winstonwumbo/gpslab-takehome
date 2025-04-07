@@ -34,6 +34,8 @@ The live demo on `vercel.app` will dynamically load my **API credentials**. Howe
 4. Add environment variables on the **Settings** Page:
     * `CHAINABUSE_API_KEY`
     * `GOOGLE_LLM_KEY`
+    * `TURSO_DB_URL`
+    * `TURSO_DB_KEY`
 4. Install the Vercel CLI on your device:
 ```
 npm i -g vercel
