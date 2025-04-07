@@ -64,7 +64,7 @@ export default async function handler(req, res){
         "data": await client.execute("SELECT * FROM fraud_listings ORDER BY date ASC"),
         "category_frequency": await client.execute("SELECT fraud_category, COUNT(fraud_category) as most_frequent FROM fraud_listings GROUP BY fraud_category ORDER BY most_frequent DESC LIMIT 1"),
         "source_frequency": await client.execute("SELECT source, COUNT(source) as most_frequent FROM fraud_listings GROUP BY source ORDER BY most_frequent DESC LIMIT 1"),
-        "currency_frequency": await client.execute("SELECT currency_type, COUNT(currency_type) as most_frequent FROM fraud_listings GROUP BY currency_type ORDER BY most_frequent DESC LIMIT 1"),
+        "currency_frequency": await client.execute("SELECT currency_type, COUNT(currency_type) as most_frequent FROM fraud_listings WHERE currency_type != '' GROUP BY currency_type ORDER BY most_frequent DESC LIMIT 1"),
         "fraud_timeline": await client.execute(`SELECT date, COUNT(*) AS fraud_count FROM fraud_listings WHERE date != 'N/A' GROUP BY date ORDER BY date ASC`),    
         "amount_stolen_by_category": await client.execute(`SELECT fraud_category, SUM(currency_amount) AS total_amount_stolen, SUM(currency_amount) / COUNT(*) AS average_per_case FROM fraud_listings WHERE currency_amount > 0 and fraud_category != '' GROUP BY fraud_category ORDER BY total_amount_stolen DESC LIMIT 5`),
       }
@@ -91,7 +91,7 @@ async function getFrequency(column, filter) {
   return await client.execute({
     sql: `SELECT ${column}, COUNT(${column}) as most_frequent 
           FROM fraud_listings 
-          WHERE source = ?
+          WHERE source = ? and ${column} != ''
           GROUP BY ${column} 
           ORDER BY most_frequent DESC 
           LIMIT 1`,
