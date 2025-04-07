@@ -11,6 +11,7 @@
     :root, html, body {
       margin: var(--ddd-spacing-0);
       padding: var(--ddd-spacing-0);
+      background-color: var(--ddd-theme-default-beaverBlue);
     }
     #demo {
       margin: var(--ddd-spacing-2);
@@ -19,6 +20,7 @@
       margin: var(--ddd-spacing-2);
       border: var(--ddd-border-md);
       border-radius: var(--ddd-radius-lg);
+      background-color: var(--ddd-theme-default-white);
     }
     gpslab-dashboard:hover {
       box-shadow: var(--ddd-boxShadow-sm);
@@ -28,13 +30,17 @@
       background-color: var(--ddd-accent-2);
       color: var(--ddd-primary-17);
     }
+    h1 {
+      color: var(--ddd-theme-default-white);
+      text-align: center;
+    }
   </style>
   <title>gpslab-dashboard</title>
 </head>
 
 <body>
   <div id="demo">
-    <h1>gpslab-dashboard</h1>
+    <h1>Penn State GPS Lab - Crypto Fraud Dashboard</h1>
     <!-- this is going to do whatever the tag's defaults are -->
     <gpslab-dashboard></gpslab-dashboard>
   </div>

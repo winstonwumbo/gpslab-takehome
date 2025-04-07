@@ -19,6 +19,15 @@
             },
             {
               "kind": "method",
+              "name": "handleFilterChange",
+              "parameters": [
+                {
+                  "name": "event"
+                }
+              ]
+            },
+            {
+              "kind": "method",
               "name": "updateDatabase"
             },
             {
@@ -104,6 +113,56 @@
               },
               "default": "[]",
               "attribute": "currency-frequency"
+            },
+            {
+              "kind": "field",
+              "name": "currentFilter",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"AllSources\"",
+              "attribute": "current-filter"
+            },
+            {
+              "kind": "field",
+              "name": "fraudTimeline",
+              "privacy": "public",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "attribute": "fraud-timeline"
+            },
+            {
+              "kind": "field",
+              "name": "fraudCount",
+              "privacy": "public",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "attribute": "fraud-count"
+            },
+            {
+              "kind": "field",
+              "name": "fraudPieChart",
+              "privacy": "public",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "attribute": "fraud-pie-chart"
+            },
+            {
+              "kind": "field",
+              "name": "fraudAmount",
+              "privacy": "public",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "attribute": "fraud-amount"
             }
           ],
           "attributes": [
@@ -154,6 +213,46 @@
               },
               "default": "[]",
               "fieldName": "currencyFrequency"
+            },
+            {
+              "name": "current-filter",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"AllSources\"",
+              "fieldName": "currentFilter"
+            },
+            {
+              "name": "fraud-timeline",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "fieldName": "fraudTimeline"
+            },
+            {
+              "name": "fraud-count",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "fieldName": "fraudCount"
+            },
+            {
+              "name": "fraud-pie-chart",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "fieldName": "fraudPieChart"
+            },
+            {
+              "name": "fraud-amount",
+              "type": {
+                "text": "array"
+              },
+              "default": "[]",
+              "fieldName": "fraudAmount"
             }
           ],
           "mixins": [
@@ -254,7 +353,17 @@
             },
             {
               "kind": "field",
-              "name": "source_url",
+              "name": "sourceUrl",
+              "privacy": "public",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "source-url"
+            },
+            {
+              "kind": "field",
+              "name": "currencyType",
               "type": {
                 "text": "string"
               },
@@ -262,35 +371,13 @@
             },
             {
               "kind": "field",
-              "name": "currency_types",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\""
-            },
-            {
-              "kind": "field",
-              "name": "currency_amount",
+              "name": "currencyAmount",
+              "privacy": "public",
               "type": {
                 "text": "number"
               },
-              "default": "0"
-            },
-            {
-              "kind": "field",
-              "name": "accused_parties",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\""
-            },
-            {
-              "kind": "field",
-              "name": "relavent_addresses",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\""
+              "default": "0",
+              "attribute": "currency-amount"
             },
             {
               "kind": "field",
@@ -313,30 +400,12 @@
             },
             {
               "kind": "field",
-              "name": "sourceUrl",
-              "privacy": "public",
-              "type": {
-                "text": "string"
-              },
-              "attribute": "source-url"
-            },
-            {
-              "kind": "field",
               "name": "currencyTypes",
               "privacy": "public",
               "type": {
                 "text": "string"
               },
               "attribute": "currency-types"
-            },
-            {
-              "kind": "field",
-              "name": "currencyAmount",
-              "privacy": "public",
-              "type": {
-                "text": "number"
-              },
-              "attribute": "currency-amount"
             },
             {
               "kind": "field",
@@ -394,6 +463,7 @@
               "type": {
                 "text": "string"
               },
+              "default": "\"\"",
               "fieldName": "sourceUrl"
             },
             {
@@ -408,6 +478,7 @@
               "type": {
                 "text": "number"
               },
+              "default": "0",
               "fieldName": "currencyAmount"
             },
             {

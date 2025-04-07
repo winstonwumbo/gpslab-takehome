@@ -24,5 +24,5 @@ Discussion on technical issues that impacted the direction of this take-home pro
 1. **Vercel**
    * Serverless functions have a maximum runtime of **60 seconds** and a maximum dependency size of **250 MB** for free users.
 2. **Natural-Language Processing (NLP)**
-    * Python provides several excellent frameworks for NLP such as **Spacy** and **Google Natural Language AI**. However, these are heavy packages, and after significant testing, I realized that they exceed the size limit on **Vercel**.
-    * After considering these constraints, I decided to manually parse the text data using **regex** and **Pandas**.
+    * Python provides several excellent frameworks for NLP such as **Spacy**, **NLTK**, and **Google Natural Language AI**. However, these are heavy packages, and after significant testing, I realized that they exceed the size limit on **Vercel**.
+    * For the purposes of this demo, I decided to manually parse the text data using **regex** and **Pandas**.

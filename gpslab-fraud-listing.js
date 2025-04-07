@@ -24,11 +24,9 @@ export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
     this.fraud_category = "";
     this.date = "";
     this.source = "";
-    this.source_url = "";
-    this.currency_types = "";
-    this.currency_amount = 0;
-    this.accused_parties = "";
-    this.relavent_addresses = "";
+    this.sourceUrl = "";
+    this.currencyType = "";
+    this.currencyAmount = 0;
     this.description = "";
   }
 
@@ -69,7 +67,7 @@ export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
       }
       .table-cell {
         display: table-cell;
-        width: 40px;
+        max-width: 400px;
         border: 1px solid black;
       }
     `];
@@ -77,16 +75,26 @@ export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
 
   // Lit render the HTML
   render() {
-    return html`
-        <a href=${this.source_url} class="table-cell">${this.title}</a>
+    if(this.sourceUrl!==""){
+      return html`
+      <a href=${this.sourceUrl} class="table-cell">${this.title}</a>
+      <p class="table-cell">${this.fraudCategory}</p>
+      <p class="table-cell">${this.date}</p>
+      <p class="table-cell">${this.source}</p>
+      <p class="table-cell">${this.currencyTypes}</p>
+      <p class="table-cell">${this.currencyAmount}</p>
+      `;
+    } else {
+      return html`
+        <p class="table-cell">${this.title}</p>
         <p class="table-cell">${this.fraudCategory}</p>
         <p class="table-cell">${this.date}</p>
         <p class="table-cell">${this.source}</p>
         <p class="table-cell">${this.currencyTypes}</p>
-        <p class="table-cell">${this.currencyAmount}</p>
-        <p class="table-cell">${this.accusedParties}</p>
-        <p class="table-cell">${this.relaventAddresses}</p>
+        <p class="table-cell">$${this.currencyAmount}</p>
         `;
+    }
+    
   }
 
   /**

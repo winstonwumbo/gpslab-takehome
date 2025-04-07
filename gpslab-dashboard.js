@@ -28,6 +28,11 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
     this.categoryFrequency = [];
     this.sourceFrequency = [];
     this.currencyFrequency = [];
+    this.currentFilter = "AllSources";
+    this.fraudTimeline = [];
+    this.fraudCount = [];
+    this.fraudPieChart = [];
+    this.fraudAmount = [];
   }
 
   // Lit reactive properties
@@ -40,6 +45,11 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
       categoryFrequency: { type: Array, attribute: "category-frequency" },
       sourceFrequency: { type: Array, attribute: "source-frequency" },
       currencyFrequency: { type: Array, attribute: "currency-frequency" },
+      currentFilter: { type: String, attribute: "current-filter" },
+      fraudTimeline: { type: Array, attribute: "fraud-timeline" },
+      fraudCount: { type: Array, attribute: "fraud-count" },
+      fraudPieChart: { type: Array, attribute: "fraud-pie-chart" },
+      fraudAmount: { type: Array, attribute: "fraud-amount" },
     };
   }
 
@@ -65,7 +75,7 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
         text-align: center;
       }
       button {
-        background-color: black;
+        background-color: var(--ddd-theme-default-beaverBlue);
         color: white;
         border: 1px solid skyblue;
         border-radius: 4px;
@@ -91,18 +101,28 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
       }
       .nav-menu {
         display: flex;
+        justify-content: space-between;
       }
+
       .source-filter {
         display: flex;
       }
  
       .upper-container {
         display: flex;
+        max-height: 550px;
       }
-      .table-container {
+      .fraud-listings {
         display: flex;
         flex: 7;
         flex-direction: column;
+      }
+      .table-container {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        max-height: 500px;
+        overflow-y: scroll;
       }
       .fraud-table {
         display: table;
@@ -151,7 +171,18 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
       }
       .chart-container {
         width: 50%;
+        height: 500px;
       }
+      @media only screen and (max-width: 1800px) {
+      h6 {
+        min-height: 48px;
+      }
+      .chart-container {
+        width: 50%;
+        height: 350px;
+      }
+    }
+
     `];
   }
 
@@ -162,41 +193,45 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
   <div class="nav-menu">
     <button @click="${this.updateDatabase}">Refresh Database</button>
     <form class="source-filter">
-      <input type="radio" id="allsources" name="source_view" value="AllSources">
+      <input type="radio" id="allsources" name="source_view" value="AllSources" @change=${this.handleFilterChange}>
       <label for="allsources">All</label><br>
-      <input type="radio" id="chainabuse" name="source_view" value="ChainAbuse">
+      <input type="radio" id="chainabuse" name="source_view" value="ChainAbuse" @change=${this.handleFilterChange}>
       <label for="chainabuse">ChainAbuse</label><br>
-      <input type="radio" id="dfpi" name="source_view" value="DFPI">
+      <input type="radio" id="dfpi" name="source_view" value="DFPI" @change=${this.handleFilterChange}>
       <label for="dfpi">California DFPI</label><br>
-      <input type="radio" id="sec" name="source_view" value="SEC">
+      <input type="radio" id="sec" name="source_view" value="SEC" @change=${this.handleFilterChange}>
       <label for="sec">SEC</label><br>
-      <input type="radio" id="zachxbt" name="source_view" value="ZachXBT">
+      <input type="radio" id="zachxbt" name="source_view" value="ZachXBT" @change=${this.handleFilterChange}>
       <label for="zachxbt">ZachXBT</label>
     </form>
+
+    <div class="current-filter">
+      Current Filter: ${this.currentFilter}
+    </div>
   </div>
 
   <div class="upper-container">
-  <div class="table-container">
+  <div class="fraud-listings">
   <h6>Select a table item to generate an LLM Case Summary</h6>
 
-  <div class="fraud-table">
-    <div class="table-row">
-      <div class="table-cell">Title</div>
-      <div class="table-cell">Fraud Category</div>
-      <div class="table-cell">Date</div>
-      <div class="table-cell">Source</div>
-      <div class="table-cell">Currency Types</div>
-      <div class="table-cell">Amount Stolen</div>
-      <div class="table-cell">Accused</div>
-      <div class="table-cell">Relavent Links</div>
+  <div class="table-container">
+    <div class="fraud-table">
+      <div class="table-row">
+        <div class="table-cell">Title</div>
+        <div class="table-cell">Fraud Category</div>
+        <div class="table-cell">Date</div>
+        <div class="table-cell">Source</div>
+        <div class="table-cell">Currency Types</div>
+        <div class="table-cell">Amount Stolen</div>
+      </div>
+      ${this.items.map((item, index) => html`
+        <gpslab-fraud-listing @click="${this.analyzeCaseWithLLM}" title=${item[1]} fraud-category=${item[2]} date=${item[3]} source=${item[4]} source-url=${item[5]} currency-types=${item[6]} currency-amount=${item[7]} description=${item[8]}></gpslab-fraud-listing>
+        `)}
     </div>
-    ${this.items.map((item, index) => html`
-      <gpslab-fraud-listing @click="${this.analyzeCaseWithLLM}" title=${item[1]} fraud-category=${item[2]} date=${item[3]} source=${item[4]} source-url=${item[5]} currency-types=${item[6]} currency-amount=${item[7]} accused-parties=${item[8]} relavent-addresses=${item[9]} description=${item[10]}></gpslab-fraud-listing>
-      `)}
-  </div>
+      </div>
   </div>
   <div class="frequency-counts">
-  <h6>Frequency:</h6>
+  <h6>Frequency Figures</h6>
   <div class="category-frequency">
     <h6>Fraud Category</h6>
     <p>${this.categoryFrequency[0] ? this.categoryFrequency[0] : "Null"}<br>
@@ -240,30 +275,69 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
     this.frequencyChart();
   }
 
+  updated(changedProperties) {
+    super.updated(changedProperties);
+    if (changedProperties.has("fraudTimeline") || changedProperties.has("fraudCount")) {
+      this.frequencyChart();
+    }
+  }
+
+  handleFilterChange(event) {
+    this.currentFilter = event.target.value;
+
+    this.retrieveDatabase();
+  }
+
   async updateDatabase(){
     try {
-      const response = await fetch('api/database', {
+
+      const secResponse = await fetch(`api/crawl-sec`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        return response.json()
+      }).then((data) => {
+        return data
+      });
+      const dfpiResponse = await fetch(`api/crawl-dfpi`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        return response.json()
+      }).then((data) => {
+        return data
+      });
+
+      const zachxbtResponse = await fetch(`api/crawl-zachxbt`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }).then((response) => {
+        return response.json()
+      }).then((data) => {
+        return data
+      });
+
+      console.log([...secResponse, ...dfpiResponse, ...zachxbtResponse])
+
+      const combinedResponse = [...secResponse, ...dfpiResponse, ...zachxbtResponse]
+
+      const request = await fetch('api/database', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify([{
-            "item": 1,
-            "title": "Scam listing",
-          },
-          {
-            "item": 2,
-            "title": "Scam listing",
-          }],
-        ),
+        body: JSON.stringify({
+          data: combinedResponse,
+        }),
       });
   
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-  
-      const data = await response.json();
-      console.log(data);
+      const activateRequest = await request.json();
       this.retrieveDatabase();
     } catch (error) {
       console.error('Error:', error);
@@ -273,7 +347,11 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
 
   async retrieveDatabase(){
     try {
-      const response = await fetch('api/database', {
+      const param = {
+        sourceFilter: this.currentFilter,
+      }
+
+      const response = await fetch(`api/database?${new URLSearchParams(param).toString()}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -291,6 +369,12 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
       console.log(this.categoryFrequency)
       this.sourceFrequency = output.source_frequency.rows[0];
       this.currencyFrequency = output.currency_frequency.rows[0];
+
+      this.fraudTimeline = output.fraud_timeline.rows.map(item => item[0]);
+      this.fraudCount = output.fraud_timeline.rows.map(item => item[1]);
+
+      this.fraudPieChart = output.amount_stolen_by_category.rows.map(item => item[0]);
+      this.fraudAmount = output.amount_stolen_by_category.rows.map(item => item[2]);
     } catch (error) {
       console.error('Error:', error);
       throw error;
@@ -299,45 +383,41 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
 
   frequencyChart(){
     const ctx = this.renderRoot.querySelector('#myChart');
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
-      }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
+    Chart.getChart(ctx)?.destroy(); // Destroy the previous chart instance if it exists
+    
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: this.fraudTimeline,
+        datasets: [{
+          label: '# of Fraud Cases',
+          data: this.fraudCount,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
         }
       }
-    }
-  });
+    });
 
   const ctx2 = this.renderRoot.querySelector('#myChart2');
-
+  Chart.getChart(ctx2)?.destroy();
   new Chart(ctx2, {
     type: 'bar',
     data: {
-      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      labels: this.fraudPieChart,
       datasets: [{
-        label: '# of Votes',
-        data: [12, 19, 3, 5, 2, 3],
-        borderWidth: 1
+        label: 'Stolen Money ($) by Fraud Category',
+        data: this.fraudAmount,
+        borderWidth: 1,
+        hoverOffset: 4,
+        minBarLength: 35,
       }]
-    },
-    options: {
-      scales: {
-        y: {
-          beginAtZero: true
-        }
-      }
-    }
+    }, 
   });
 
   }
@@ -368,17 +448,6 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
       throw error;
     }
   }
-
-  // updated(changedProperties){
-  //   super.updated(changedProperties);
-  //   if (changedProperties.has("llmSummary")) {
-  //     this.dispatchEvent(new CustomEvent("llm-summary-changed", {
-  //       detail: { llmSummary: this.llmSummary },
-  //       bubbles: true,
-  //       composed: true,
-  //     }));
-  //   }
-  // }
 
   /**
    * haxProperties integration via file reference

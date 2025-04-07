@@ -165,7 +165,7 @@ As an early prototype, the dashboard follows the following layout for simplicity
         * https://jupyter.org/
 3. **Pandas**
     * **Pandas** is a data analysis library designed for manipulating text data. It is commonly implemented in **Extract, Transform, Load (ETL)** pipelines, where users need to integrate multiple sources into one dataset.
-    * **Pandas** supports **regular expressions (regex)**, which allows developers to parse text for specific patterns. This makes it an excellent tool for manual **natural-language processing (NLP)**.
+    * **Pandas** supports **regular expressions (regex)**, which allows developers to parse text for specific patterns. This makes it an excellent tool for manual **language processing**.
     * **Dataframes in Pandas** follow a two-dimensional table structure, quite similar to CSV or XLSX files. This familiarity greatly simplifies learning the basics.
     * The **Apache Spark** engine is a similar tool for large-scale data processing. There is a Python package for interfacing with it named `pyspark`.
         * The platform is ubiquitous in **big data**, but its complexity is not necessary for the scale of the current dataset.
