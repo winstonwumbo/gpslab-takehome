@@ -13,9 +13,12 @@ Discussion on technical issues that impacted the direction of this take-home pro
         * This website has a constraint as well though. It utilizes infinite scroll, and Scrapy cannot interact without using additional frameworks. These frameworks go beyond the size capacity for Vercel functions.
 2. **ChainAbuse**
     * ChainAbuse has a polished API available for developers to interact with the platform.
-    * Free users are constrained to **10 requests** maximum per month.
+    * Free users are constrained to **10 requests** maximum per month. Each request can only contain **50 records** maximum.
+    * I was able to test a CURL request to the ChainAbuse API earlier this week. However, the API has started returning an **Invalid Credentials** error, despite only issuing 1 out of 10 requests. I messaged ChainAbuse support and did some unsuccessful troubleshooting on my own.
+    * I decided to insert a simulated request into my database instead. This is based on the first page of results from ChainAbuse.
 3. **SEC Crypto Assets**
     * The SEC website has a strict rate-limit of 10 requests per second. On the other hand, Vercel functions are limited to a **60 second** duration.
+    * The SEC website requires a **custom user agent** that includes the requester's organization and email address.
     * The crawler required a great amount of setting optimization to work properly.
 4. **California DFPI**
     * The **Scam Tracking** database maintained by DFPI does not provide a data value for any cases. This makes it more difficult to normalize the database with the others.
