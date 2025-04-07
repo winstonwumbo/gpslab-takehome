@@ -28,7 +28,7 @@ class SECSpider(Spider):
                     date = row.xpath("td[2]/p[1]/text()").get()
                 else:
                     date = row.xpath("td[2]//text()").get()
-                yield Request(sanitized_url, callback=self.parse_item, meta={"category": category, "date": date})
+                yield Request(sanitized_url, callback=self.parse_item, meta={"category": category, "date": date, "source_url": sanitized_url})
                                             
     def parse_item(self, response):
         # Process description
@@ -41,6 +41,7 @@ class SECSpider(Spider):
             'category': response.meta["category"],
             'date': response.meta["date"],
             'source': "SEC",
+            'source_url': response.meta['source_url'],
             'description': cleaned_description
         });
 

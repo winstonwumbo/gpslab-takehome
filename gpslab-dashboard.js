@@ -33,6 +33,7 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
     this.fraudCount = [];
     this.fraudPieChart = [];
     this.fraudAmount = [];
+    this.loading = true;
   }
 
   // Lit reactive properties
@@ -50,6 +51,7 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
       fraudCount: { type: Array, attribute: "fraud-count" },
       fraudPieChart: { type: Array, attribute: "fraud-pie-chart" },
       fraudAmount: { type: Array, attribute: "fraud-amount" },
+      loading: { type: Boolean },
     };
   }
 
@@ -173,6 +175,13 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
         width: 50%;
         height: 500px;
       }
+      .loading {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
       @media only screen and (max-width: 1800px) {
       h6 {
         min-height: 48px;
@@ -188,85 +197,95 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
 
   // Lit render the HTML
   render() {
-    return html`
-<div class="wrapper">
-  <div class="nav-menu">
-    <button @click="${this.updateDatabase}">Refresh Database</button>
-    <form class="source-filter">
-      <input type="radio" id="allsources" name="source_view" value="AllSources" @change=${this.handleFilterChange}>
-      <label for="allsources">All</label><br>
-      <input type="radio" id="chainabuse" name="source_view" value="ChainAbuse" @change=${this.handleFilterChange}>
-      <label for="chainabuse">ChainAbuse</label><br>
-      <input type="radio" id="dfpi" name="source_view" value="DFPI" @change=${this.handleFilterChange}>
-      <label for="dfpi">California DFPI</label><br>
-      <input type="radio" id="sec" name="source_view" value="SEC" @change=${this.handleFilterChange}>
-      <label for="sec">SEC</label><br>
-      <input type="radio" id="zachxbt" name="source_view" value="ZachXBT" @change=${this.handleFilterChange}>
-      <label for="zachxbt">ZachXBT</label>
-    </form>
-
-    <div class="current-filter">
-      Current Filter: ${this.currentFilter}
-    </div>
-  </div>
-
-  <div class="upper-container">
-  <div class="fraud-listings">
-  <h6>Select a table item to generate an LLM Case Summary</h6>
-
-  <div class="table-container">
-    <div class="fraud-table">
-      <div class="table-row">
-        <div class="table-cell">Title</div>
-        <div class="table-cell">Fraud Category</div>
-        <div class="table-cell">Date</div>
-        <div class="table-cell">Source</div>
-        <div class="table-cell">Currency Types</div>
-        <div class="table-cell">Amount Stolen</div>
+    if(this.loading){
+      return html`
+      <div class="loading">
+      <h6>Loading in progress...</h6>
+      <img src=https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif?20151024034921>
       </div>
-      ${this.items.map((item, index) => html`
-        <gpslab-fraud-listing @click="${this.analyzeCaseWithLLM}" title=${item[1]} fraud-category=${item[2]} date=${item[3]} source=${item[4]} source-url=${item[5]} currency-types=${item[6]} currency-amount=${item[7]} description=${item[8]}></gpslab-fraud-listing>
-        `)}
-    </div>
+      `
+    } else {
+      return html`
+      <div class="wrapper">
+        <div class="nav-menu">
+          <button @click="${this.updateDatabase}">Refresh Database</button>
+          <form class="source-filter">
+            <input type="radio" id="allsources" name="source_view" value="AllSources" @change=${this.handleFilterChange}>
+            <label for="allsources">All</label><br>
+            <input type="radio" id="chainabuse" name="source_view" value="ChainAbuse" @change=${this.handleFilterChange}>
+            <label for="chainabuse">ChainAbuse</label><br>
+            <input type="radio" id="dfpi" name="source_view" value="DFPI" @change=${this.handleFilterChange}>
+            <label for="dfpi">California DFPI</label><br>
+            <input type="radio" id="sec" name="source_view" value="SEC" @change=${this.handleFilterChange}>
+            <label for="sec">SEC</label><br>
+            <input type="radio" id="zachxbt" name="source_view" value="ZachXBT" @change=${this.handleFilterChange}>
+            <label for="zachxbt">ZachXBT</label>
+          </form>
+      
+          <div class="current-filter">
+            Current Filter: ${this.currentFilter}
+          </div>
+        </div>
+      
+        <div class="upper-container">
+        <div class="fraud-listings">
+        <h6>Select a table item to generate an LLM Case Summary</h6>
+      
+        <div class="table-container">
+          <div class="fraud-table">
+            <div class="table-row">
+              <div class="table-cell">Title</div>
+              <div class="table-cell">Fraud Category</div>
+              <div class="table-cell">Date</div>
+              <div class="table-cell">Source</div>
+              <div class="table-cell">Currency Types</div>
+              <div class="table-cell">Amount Stolen</div>
+            </div>
+            ${this.items.map((item, index) => html`
+              <gpslab-fraud-listing @click="${this.analyzeCaseWithLLM}" title=${item[1]} fraud-category=${item[2]} date=${item[3]} source=${item[4]} source-url=${item[5]} currency-types=${item[6]} currency-amount=${item[7]} description=${item[8]}></gpslab-fraud-listing>
+              `)}
+          </div>
+            </div>
+        </div>
+        <div class="frequency-counts">
+        <h6>Frequency Figures</h6>
+        <div class="category-frequency">
+          <h6>Fraud Category</h6>
+          <p>${this.categoryFrequency[0] ? this.categoryFrequency[0] : "Null"}<br>
+          Count: ${this.categoryFrequency[1] ? this.categoryFrequency[1] : "Null"}
+          </p>
+          </div>
+        <div class="source-frequency">
+          <h6>Fraud Database</h6>
+          <p>${this.sourceFrequency[0] ? this.sourceFrequency[0] : "Null"}<br>
+          Count: ${this.sourceFrequency[1] ? this.sourceFrequency[1] : "Null"}
+          </p>
+          </div>
+          <div class="currency-frequency">
+          <h6>Blockchain</h6>
+          <p>${this.currencyFrequency[0] ? this.currencyFrequency[0] : "Null"}<br>
+          Count: ${this.currencyFrequency[1] ? this.currencyFrequency[1] : "Null"}
+          </p>
+          </div>
+          </div>
+        </div>
+        <div class="chart-visuals">
+        <div class="chart-container">
+        <canvas id="myChart"></canvas>
+        </div>
+        <div class="chart-container">
+      
+        <canvas id="myChart2"></canvas>
       </div>
-  </div>
-  <div class="frequency-counts">
-  <h6>Frequency Figures</h6>
-  <div class="category-frequency">
-    <h6>Fraud Category</h6>
-    <p>${this.categoryFrequency[0] ? this.categoryFrequency[0] : "Null"}<br>
-    Count: ${this.categoryFrequency[1] ? this.categoryFrequency[1] : "Null"}
-    </p>
-    </div>
-  <div class="source-frequency">
-    <h6>Fraud Database</h6>
-    <p>${this.sourceFrequency[0] ? this.sourceFrequency[0] : "Null"}<br>
-    Count: ${this.sourceFrequency[1] ? this.sourceFrequency[1] : "Null"}
-    </p>
-    </div>
-    <div class="currency-frequency">
-    <h6>Blockchain</h6>
-    <p>${this.currencyFrequency[0] ? this.currencyFrequency[0] : "Null"}<br>
-    Count: ${this.currencyFrequency[1] ? this.currencyFrequency[1] : "Null"}
-    </p>
-    </div>
-    </div>
-  </div>
-  <div class="chart-visuals">
-  <div class="chart-container">
-  <canvas id="myChart"></canvas>
-  </div>
-  <div class="chart-container">
-
-  <canvas id="myChart2"></canvas>
-</div>
-</div>
-
-  <div class="llm-summary">
-    <h4>LLM Summary</h4>
-    ${this.llmSummary.split('\n').map(line => html`<p>${line}</p>`)}
-  </div>
-</div>`;
+      </div>
+      
+        <div class="llm-summary">
+          <h4>LLM Summary</h4>
+          ${this.llmSummary.split('\n').map(line => html`<p>${line}</p>`)}
+        </div>
+      </div>`;
+    }
+    
   }
 
   firstUpdated(changedProperties) {
@@ -347,6 +366,7 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
 
   async retrieveDatabase(){
     try {
+      this.loading = true;
       const param = {
         sourceFilter: this.currentFilter,
       }
@@ -375,6 +395,7 @@ export class GpslabDashboard extends DDDSuper(I18NMixin(LitElement)) {
 
       this.fraudPieChart = output.amount_stolen_by_category.rows.map(item => item[0]);
       this.fraudAmount = output.amount_stolen_by_category.rows.map(item => item[2]);
+      this.loading = false;
     } catch (error) {
       console.error('Error:', error);
       throw error;

@@ -163,6 +163,16 @@
               },
               "default": "[]",
               "attribute": "fraud-amount"
+            },
+            {
+              "kind": "field",
+              "name": "loading",
+              "privacy": "public",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "loading"
             }
           ],
           "attributes": [
@@ -253,6 +263,14 @@
               },
               "default": "[]",
               "fieldName": "fraudAmount"
+            },
+            {
+              "name": "loading",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "loading"
             }
           ],
           "mixins": [
