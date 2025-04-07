@@ -82,7 +82,7 @@ export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
       <p class="table-cell">${this.date}</p>
       <p class="table-cell">${this.source}</p>
       <p class="table-cell">${this.currencyTypes}</p>
-      <p class="table-cell">${this.currencyAmount}</p>
+      <p class="table-cell">$${this.currencyAmount.toLocaleString()}</p>
       `;
     } else {
       return html`
@@ -91,7 +91,7 @@ export class GpslabFraudListing extends DDDSuper(I18NMixin(LitElement)) {
         <p class="table-cell">${this.date}</p>
         <p class="table-cell">${this.source}</p>
         <p class="table-cell">${this.currencyTypes}</p>
-        <p class="table-cell">$${this.currencyAmount}</p>
+        <p class="table-cell">$${this.currencyAmount.toLocaleString()}</p>
         `;
     }
     
